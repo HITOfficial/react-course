@@ -1,68 +1,66 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
-import {UserInput} from './UserInput/UserInput';
-import {UserOutput} from './UserOutput/UserOutput';
 
 class App extends Component {
   state = {
-    // persons: [
-    //   { name: "Max", age: 28 },
-    //   { name: "Lip", age: 9 },
-    //   { name: "Stephanie", age: 18 }
-    // ],
-    // otherState: 'WeweweWe'
-    name : 'Nobody'
+    persons: [
+      { name: "Max", age: 28 },
+      { name: "Lip", age: 9 },
+      { name: "Stephanie", age: 18 }
+    ],
+    otherState: 'WeweweWe'
   };
 
-  // switchNameHandler = (newName) => {
-  //   this.setState( {
-  //     persons: [
-  //       { name: 'Max', age: 28 },
-  //       { name: newName, age: 9 },
-  //       { name: "Stephanie", age: 28 }
-  //     ]
-  //   } )
-  // };
-
-  // NameChangeHandler = (event) => {
-  //   this.setState( {
-  //     persons: [
-  //       { name: 'Max', age: 28 },
-  //       { name: event.target.value, age: 9 },
-  //       { name: "Stephanie", age: 28 }
-  //     ]
-  //   } )
-  // };
-
-  PickNameHandler = (e) => {
+  switchNameHandler = (newName) => {
     this.setState( {
-      name: e.target.value
+      persons: [
+        { name: 'Max', age: 28 },
+        { name: newName, age: 9 },
+        { name: "Stephanie", age: 28 }
+      ]
     } )
-    console.log(this.state.name)
+  };
+
+  deletePersonHandler = (personIndex) => {
+    this.setState(this.state.persons.splice(personIndex,1)); // from setState() i'm manipulating state, iside i use this. to corrently choice state from parent class, and after that I'm removing curently element using index  
   }
 
-    render(){
-      // const style = {
-      //   backgroundColor: 'white',
-      //   font: 'inherit',
-      //   border: '1px solid blue',
-      //   padding: '8px',
-      //   cursor: 'pointer'
-      // };
-       
-      return (
-        <div className="App">
-          <UserInput name={this.PickNameHandler} curentName={this.state.name} />
-          <UserOutput name={this.state.name} />
-          {/* <h2>Program</h2>
-          <button 
-            style={style}
-            onClick={() => this.switchNameHandler('Molly')}> Switch Name</button> 
-          <Person
-            name={this.state.persons[0].name}
-             age={this.state.persons[0].age} 
-             />
+  togglePersonsHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({showPersons: !doesShow}) // if its true convers this to false and from false to true
+  }
+
+  render(){
+    const style = {
+      backgroundColor: 'white',
+      font: 'inherit',
+      border: '1px solid blue',
+      padding: '8px',
+      cursor: 'pointer'
+    };
+      
+    let persons = null;
+
+    if(this.state.showPersons) {
+      persons = (
+        <div>
+
+          {this.state.persons.map((person, index) => { // like in ForEach for every single
+            return(
+              <Person
+              click={() => this.deletePersonHandler(index)}
+              name={person.name}
+              age={person.age * 2}
+              change={this.NameChangeHandler}
+              />
+            ) 
+          })}
+
+          {/* <Person
+          name={this.state.persons[0].name}
+          age={this.state.persons[0].age} 
+            />
           <Person 
           name={this.state.persons[1].name} 
           age={this.state.persons[1].age}
@@ -71,12 +69,25 @@ class App extends Component {
           > There are my hobbies
           </Person>
           <Person
-           name={this.state.persons[2].name}
+            name={this.state.persons[2].name}
             age={this.state.persons[2].age} 
           /> */}
         </div>
-      );
-    } 
+      )
+    }
+
+    return (
+      <div>
+        <h2>Program</h2>
+        <button 
+          style={style}
+          onClick={this.togglePersonsHandler}>Switch Name</button> 
+          {persons}
+        
+        
+      </div>
+    );
+  } 
 }
 
 export default App;
