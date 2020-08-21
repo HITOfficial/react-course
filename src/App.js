@@ -5,25 +5,43 @@ import Person from './Person/Person';
 class App extends Component {
   state = {
     persons: [
-      { name: "Max", age: 28 },
-      { name: "Lip", age: 9 },
-      { name: "Stephanie", age: 18 }
+      { id: 'asf1', name: "Max", age: 28 },
+      { id: 'asf2', name: "Lip", age: 9 },
+      { id: 'asf3', name: "Stephanie", age: 18 }
     ],
     otherState: 'WeweweWe'
   };
 
-  switchNameHandler = (newName) => {
-    this.setState( {
-      persons: [
-        { name: 'Max', age: 28 },
-        { name: newName, age: 9 },
-        { name: "Stephanie", age: 28 }
-      ]
-    } )
+  switchNameHandler = (event, id) => {
+    // this.state.persons.forEach((person, index) => {
+    //   if(person.id === id) {
+    //     this.setState(person[index].name = event.targen.value);
+    //   }
+    // }) // my method
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id ; // it returns true while'll find the first element from aray of id equals id and we'll recive an index
+    });
+
+    const person = {...this.state.persons[personIndex]}; //operating on new object
+
+    console.log(person.name)
+
+    person.name = event.target.value
+    
+    console.log(person.name)
+
+    // const person = Object.assign({}, this.state.persons[personIndex]) // it is equal to upper method
+
+    const persons = [...this.state.persons]; // to do not reference but copy
+    persons[personIndex] = person;
+    this.setState(this.state.persons = persons)
   };
 
   deletePersonHandler = (personIndex) => {
-    this.setState(this.state.persons.splice(personIndex,1)); // from setState() i'm manipulating state, iside i use this. to corrently choice state from parent class, and after that I'm removing curently element using index  
+    const persons = [...this.state.persons] // first thing first I'm doing a coppy of persons, to next manipulate them, and in the end save coppy as a original
+    // this.setState(this.state.persons.splice(personIndex,1)); // from setState() i'm manipulating state, iside i use this. to corrently choice state from parent class, and after that I'm removing curently element using index  
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons}); // in curlly brackets becouse it is from react library module
   }
 
   togglePersonsHandler = () => {
@@ -51,11 +69,12 @@ class App extends Component {
               <Person
               click={() => this.deletePersonHandler(index)}
               name={person.name}
-              age={person.age * 2}
-              change={this.NameChangeHandler}
+              age={person.age}
+              change={(event) => this.switchNameHandler(event, person.id)} // i need to pass event also in main function, becouse, truthly, he is even not declared physically
+              key={person.id}
               />
-            ) 
-          })}
+            )
+          })};
 
           {/* <Person
           name={this.state.persons[0].name}
