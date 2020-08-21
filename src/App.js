@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
+import {ValidationComponent} from './ValidationComponent/ValidationComponent';
+import {CharComponent} from './ValidationComponent/CharComponent';
 
 class App extends Component {
   state = {
@@ -9,7 +11,9 @@ class App extends Component {
       { id: 'asf2', name: "Lip", age: 9 },
       { id: 'asf3', name: "Stephanie", age: 18 }
     ],
-    otherState: 'WeweweWe'
+    otherState: 'WeweweWe',
+    length: null,
+    userInput: ''
   };
 
   switchNameHandler = (event, id) => {
@@ -24,12 +28,8 @@ class App extends Component {
 
     const person = {...this.state.persons[personIndex]}; //operating on new object
 
-    console.log(person.name)
-
     person.name = event.target.value
     
-    console.log(person.name)
-
     // const person = Object.assign({}, this.state.persons[personIndex]) // it is equal to upper method
 
     const persons = [...this.state.persons]; // to do not reference but copy
@@ -49,6 +49,15 @@ class App extends Component {
     this.setState({showPersons: !doesShow}) // if its true convers this to false and from false to true
   }
 
+  lengthHandler = (event) => {
+    const length = event.target.value.length;
+    this.setState({userInput : event.target.value})
+    return this.setState({length : length })
+  }
+  
+  
+
+
   render(){
     const style = {
       backgroundColor: 'white',
@@ -59,6 +68,10 @@ class App extends Component {
     };
       
     let persons = null;
+
+    const charList = this.state.userInput.split('').map((char, key) => {
+      return <CharComponent char={char} key={key} /> 
+    })
 
     if(this.state.showPersons) {
       persons = (
@@ -74,7 +87,8 @@ class App extends Component {
               key={person.id}
               />
             )
-          })};
+          })}
+          {charList}
 
           {/* <Person
           name={this.state.persons[0].name}
@@ -98,6 +112,13 @@ class App extends Component {
     return (
       <div>
         <h2>Program</h2>
+        <input type="text" onChange={(event) => this.lengthHandler(event)} />
+
+        <p>{this.state.length}</p>
+        <ValidationComponent
+         length={this.state.length}
+          />
+          {charList}
         <button 
           style={style}
           onClick={this.togglePersonsHandler}>Switch Name</button> 
