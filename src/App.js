@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import classes from './App.css';
 import Person from './Person/Person';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
+import ErroBoundery from './ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
   state = {
@@ -78,26 +80,27 @@ class App extends Component {
         <div>
           {this.state.persons.map((person, index) => { // like in ForEach for every single
             return(
-              <Person
-              click={() => this.deletePersonHandler(index)}
-              name={person.name}
-              age={person.age}
-              change={(event) => this.switchNameHandler(event, person.id)} // i need to pass event also in main function, becouse, truthly, he is even not declared physically
-              key={person.id}
+              <ErroBoundery key={person.id}>
+                <Person
+                click={() => this.deletePersonHandler(index)}
+                name={person.name}
+                age={person.age}
+                change={(event) => this.switchNameHandler(event, person.id)} // i need to pass event also in main function, becouse, truthly, he is even not declared physically
+                key={person.id}
               />
-            )
+              </ErroBoundery>
+                          )
           })}
         </div>
       );
 
       btnClass = classes.Red
-
       }
-      {console.log(btnClass)}
+      
     return (
-        <div>
+        <div className={classes.App}>
           <h2>Program</h2>
-          <p>This is a paragraph</p>
+          <p>This is a paragranpmph</p>
           <button 
             className={btnClass}
             onClick={this.togglePersonsHandler}>Switch Name</button> 
