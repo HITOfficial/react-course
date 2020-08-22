@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
+import Radium, { StyleRoot } from 'radium';
 import Person from './Person/Person';
-import {ValidationComponent} from './ValidationComponent/ValidationComponent';
-import {CharComponent} from './ValidationComponent/CharComponent';
 
 class App extends Component {
   state = {
@@ -55,23 +54,28 @@ class App extends Component {
     return this.setState({length : length })
   }
   
-  
+  removeCharHandler = (index) => {
+    const text = this.state.userInput.split('');
+    text.splice(index, 1);
+    const updatedText = text.join('');
+    this.setState({userInput : updatedText})
+  }
 
 
   render(){
     const style = {
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      ':hover': {
+        backgroundColor: 'yellow'
+      }
     };
       
     let persons = null;
-
-    const charList = this.state.userInput.split('').map((char, key) => {
-      return <CharComponent char={char} key={key} /> 
-    })
 
     if(this.state.showPersons) {
       persons = (
@@ -88,46 +92,39 @@ class App extends Component {
               />
             )
           })}
-          {charList}
-
-          {/* <Person
-          name={this.state.persons[0].name}
-          age={this.state.persons[0].age} 
-            />
-          <Person 
-          name={this.state.persons[1].name} 
-          age={this.state.persons[1].age}
-          change={this.NameChangeHandler}
-          click={this.switchNameHandler.bind(this,'Marcus', 'Helen')}
-          > There are my hobbies
-          </Person>
-          <Person
-            name={this.state.persons[2].name}
-            age={this.state.persons[2].age} 
-          /> */}
         </div>
-      )
+      );
+      style.backgroundColor = 'red'; // first, think first, rerender of this method set static, params, secondly, it look's to the condition, and hange the color 
+      style[':hover'] = {
+        backgroundColor: 'orange',
+        border: '1px solid blue'
+      }
     }
 
-    return (
-      <div>
-        <h2>Program</h2>
-        <input type="text" onChange={(event) => this.lengthHandler(event)} />
+    let classes = []; // 'red bold'
+    if (this.state.persons.length <=2) {
+      classes.push('red'); // classes = ['red']
+    }
+    if (this.state.persons.length <=1) {
+      classes.push('bold');
+    }
+    classes = classes.join(' ');
 
-        <p>{this.state.length}</p>
-        <ValidationComponent
-         length={this.state.length}
-          />
-          {charList}
-        <button 
-          style={style}
-          onClick={this.togglePersonsHandler}>Switch Name</button> 
-          {persons}
-        
-        
-      </div>
+
+    return (
+      <StyleRoot>
+        <div>
+          <h2>Program</h2>
+          <p className={classes}>This is a paragraph</p>
+          <button 
+            style={style}
+            onClick={this.togglePersonsHandler}>Switch Name</button> 
+            {persons}
+        </div>
+      </StyleRoot>
+      
     );
   } 
 }
 
-export default App;
+export default Radium(App);
