@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
-import Radium, { StyleRoot } from 'radium';
+import classes from './App.css';
 import Person from './Person/Person';
 
 class App extends Component {
@@ -68,19 +67,15 @@ class App extends Component {
       color: 'white',
       font: 'inherit',
       border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer',
-      ':hover': {
-        backgroundColor: 'yellow'
-      }
-    };
-      
+      padding: '8px'
+    }
+
     let persons = null;
+    let btnClass = '';
 
     if(this.state.showPersons) {
       persons = (
         <div>
-
           {this.state.persons.map((person, index) => { // like in ForEach for every single
             return(
               <Person
@@ -94,37 +89,23 @@ class App extends Component {
           })}
         </div>
       );
-      style.backgroundColor = 'red'; // first, think first, rerender of this method set static, params, secondly, it look's to the condition, and hange the color 
-      style[':hover'] = {
-        backgroundColor: 'orange',
-        border: '1px solid blue'
+
+      btnClass = classes.Red
+
       }
-    }
-
-    let classes = []; // 'red bold'
-    if (this.state.persons.length <=2) {
-      classes.push('red'); // classes = ['red']
-    }
-    if (this.state.persons.length <=1) {
-      classes.push('bold');
-    }
-    classes = classes.join(' ');
-
-
+      {console.log(btnClass)}
     return (
-      <StyleRoot>
         <div>
           <h2>Program</h2>
-          <p className={classes}>This is a paragraph</p>
+          <p>This is a paragraph</p>
           <button 
-            style={style}
+            className={btnClass}
             onClick={this.togglePersonsHandler}>Switch Name</button> 
             {persons}
         </div>
-      </StyleRoot>
       
     );
   } 
 }
 
-export default Radium(App);
+export default App;
