@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import classes from './App.css';
-import Person from './Person/Person';
-import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
-import ErroBoundery from './ErrorBoundary/ErrorBoundary';
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
+
 
 class App extends Component {
   state = {
@@ -13,15 +13,11 @@ class App extends Component {
     ],
     otherState: 'WeweweWe',
     length: null,
-    userInput: ''
+    userInput: '',
+    showPersons: false
   };
 
   switchNameHandler = (event, id) => {
-    // this.state.persons.forEach((person, index) => {
-    //   if(person.id === id) {
-    //     this.setState(person[index].name = event.targen.value);
-    //   }
-    // }) // my method
     const personIndex = this.state.persons.findIndex(p => {
       return p.id === id ; // it returns true while'll find the first element from aray of id equals id and we'll recive an index
     });
@@ -62,8 +58,7 @@ class App extends Component {
     this.setState({userInput : updatedText})
   }
 
-
-  render(){
+  render() {
     const style = {
       backgroundColor: 'green',
       color: 'white',
@@ -73,37 +68,27 @@ class App extends Component {
     }
 
     let persons = null;
-    let btnClass = '';
 
     if(this.state.showPersons) {
       persons = (
         <div>
-          {this.state.persons.map((person, index) => { // like in ForEach for every single
-            return(
-              <ErroBoundery key={person.id}>
-                <Person
-                click={() => this.deletePersonHandler(index)}
-                name={person.name}
-                age={person.age}
-                change={(event) => this.switchNameHandler(event, person.id)} // i need to pass event also in main function, becouse, truthly, he is even not declared physically
-                key={person.id}
-              />
-              </ErroBoundery>
-                          )
-          })}
+          <Persons
+            persons={this.state.persons}
+            clicked={this.deletePersonHandler/* im doing an a reference to a deletePersonHandler*/}
+            changed={this.switchNameHandler}  
+          /> 
         </div>
       );
-
-      btnClass = classes.Red
       }
       
     return (
         <div className={classes.App}>
-          <h2>Program</h2>
-          <p>This is a paragranpmph</p>
-          <button 
-            className={btnClass}
-            onClick={this.togglePersonsHandler}>Switch Name</button> 
+          <Cockpit
+            showPersons={this.state.showPersons}
+            persons={this.state.persons}
+            toggle={this.togglePersonsHandler} 
+          />
+
             {persons}
         </div>
       
