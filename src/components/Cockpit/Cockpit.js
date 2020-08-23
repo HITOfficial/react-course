@@ -18,7 +18,7 @@ const cockpit = (props) => {
 
     return(
         <div className={classes.Cockpit}>
-            <h2>Program</h2>
+            <h2>{props.title}</h2>
             <p className={assignedClasses.join(' ')}>This is a paragranpmph</p>
             <button 
                 className={btnClass}
