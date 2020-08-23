@@ -3,6 +3,8 @@ import Person from './Person/Person'
 
 
 class Persons extends Component {
+
+
   render() {
     console.log('[Persons.js] rendering');
     return (

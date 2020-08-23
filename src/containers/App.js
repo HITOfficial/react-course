@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classes from './App.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
+import cockpit from '../components/Cockpit/Cockpit';
 
 
 class App extends Component {
@@ -19,7 +20,8 @@ class App extends Component {
     otherState: 'WeweweWe',
     length: null,
     userInput: '',
-    showPersons: false
+    showPersons: false,
+    cockpit: true
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -31,10 +33,10 @@ class App extends Component {
     console.log('[App.js] componentDidMount')
   }
   
-  shouldComponentUpdate() {
-    console.log('should');
-    return true;
-  }
+  // shouldComponentUpdate() {
+  //   console.log('should');
+  //   return true;
+  // }
 
   componentDidUpdate() {
     console.log('did update')
@@ -107,12 +109,15 @@ class App extends Component {
       
     return (
         <div className={classes.App}>
-          <Cockpit
+          <button onClick={() => !this.setState({cockpit: !cockpit})}>Remove Cockpit</button>
+          {console.log(this.state.cockpit)};
+          {this.state.cockpit ? <Cockpit
+            cockpit={this.state.cockpit}
             title={this.props.title}
             showPersons={this.state.showPersons}
             persons={this.state.persons}
             toggle={this.togglePersonsHandler} 
-          />
+          /> : null }
 
             {persons}
         </div>
