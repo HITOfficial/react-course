@@ -3,7 +3,8 @@ import classes from './App.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
 import cockpit from '../components/Cockpit/Cockpit';
-
+import withClass from '../hoc/withClass';
+import Aux from '../hoc/Auxyliary';
 
 class App extends Component {
   constructor(props) {
@@ -21,7 +22,8 @@ class App extends Component {
     length: null,
     userInput: '',
     showPersons: false,
-    cockpit: true
+    cockpit: true,
+    changeCounter: 0
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -55,7 +57,11 @@ class App extends Component {
 
     const persons = [...this.state.persons]; // to do not reference but copy
     persons[personIndex] = person;
-    this.setState(this.state.persons = persons)
+    this.setState((prevState, props) => {
+      return {
+        persons : persons,
+        changeCounter : prevState.changeCounter + 1}
+    });
   };
 
   deletePersonHandler = (personIndex) => {
@@ -108,9 +114,8 @@ class App extends Component {
       }
       
     return (
-        <div className={classes.App}>
+        <Aux>
           <button onClick={() => !this.setState({cockpit: !cockpit})}>Remove Cockpit</button>
-          {console.log(this.state.cockpit)};
           {this.state.cockpit ? <Cockpit
             cockpit={this.state.cockpit}
             title={this.props.title}
@@ -121,10 +126,10 @@ class App extends Component {
           /> : null }
 
             {persons}
-        </div>
+        </Aux>
       
     );
   } 
 }
 
-export default App;
+export default withClass(App, classes.App);

@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes, { number } from 'prop-types'
 import classes from './Person.css';
+import Aux from '../../../hoc/Auxyliary';
+import withClass from '../../../hoc/withClass';
 
 class Person extends Component {
     // static getDerivedStateFromProps(props, state) {
@@ -27,7 +30,7 @@ class Person extends Component {
     render() {
         console.log('[Person.js] render');
         return (
-            <div className={classes.Person}>
+            <Aux>
                 <p
                     onClick={this.props.click}>
                     I'm a Person and I am {this.props.name}and I am {this.props.age} years old!
@@ -36,11 +39,18 @@ class Person extends Component {
                 <input
                     type="text"
                     onChange={this.props.change}
-                    value={this.props.name}/>
-            </div>
-        )
+                    value={this.props.name}
+                />
+            </Aux>
+        );
     }
 };
 
+Person.propTypes = {
+    click: PropTypes.func,
+    name: PropTypes.string,
+    age: PropTypes.number,
+    change: PropTypes.func //usefull when u code with others it declate whih type of should values be
+};
 
-export default Person;
+export default withClass(Person, classes.Person);

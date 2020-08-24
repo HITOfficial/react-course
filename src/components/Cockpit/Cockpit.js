@@ -7,11 +7,11 @@ const cockpit = (props) => {
     useEffect(() => {
         console.log('cockpit XXXXXXXXXXXX');
         const timer = setTimeout(() => {
-            alert('saved data to cloud');
+            console.log('cockpit runned')
         }, 1000)
         return () => {
             clearTimeout(timer);
-            alert('cockpit removed');
+            console.log('data saved')
                 }
     }, [props.persons]); // runs every persons changes
 
