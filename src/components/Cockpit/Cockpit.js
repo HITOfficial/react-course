@@ -6,10 +6,11 @@ const cockpit = (props) => {
     
     useEffect(() => {
         console.log('cockpit XXXXXXXXXXXX');
-        setTimeout(() => {
+        const timer = setTimeout(() => {
             alert('saved data to cloud');
         }, 1000)
         return () => {
+            clearTimeout(timer);
             alert('cockpit removed');
                 }
     }, [props.persons]); // runs every persons changes
@@ -17,7 +18,7 @@ const cockpit = (props) => {
     useEffect(() => {
         console.log('second useEffect');
         return () => {
-            console.log('last from second');
+            console.log('last from second'); // this can clean up all functions 
         };
     });
 
@@ -45,4 +46,4 @@ const cockpit = (props) => {
     )
 };
 
-export default cockpit;
+export default React.memo(cockpit);

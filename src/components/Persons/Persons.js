@@ -1,9 +1,16 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Person from './Person/Person'
 
 
-class Persons extends Component {
-
+class Persons extends PureComponent {
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log('shouldUpdate');
+  //   if(nextProps.persons  !== this.props.persons) { // it looks - if nextprops is diferent, than curently, returns true, else do not update
+  //     return true;
+  //   } else {
+  //     return false;
+  //   } 
+  // }
 
   render() {
     console.log('[Persons.js] rendering');
