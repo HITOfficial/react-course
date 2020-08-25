@@ -1,19 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import classes from './Cockpit.css';
+import AuthContext from '../../constext/auth-context';
 
 const cockpit = (props) => {
     const assignedClasses = [];
+
+    const authContext = useContext(AuthContext);
     
+    console.log(authContext.authendicated)
+
+    const toggleBtnRef = React.useRef(null);
+
     useEffect(() => {
-        console.log('cockpit XXXXXXXXXXXX');
-        const timer = setTimeout(() => {
-            console.log('cockpit runned')
-        }, 1000)
+        toggleBtnRef.current.click();
         return () => {
-            clearTimeout(timer);
-            console.log('data saved')
-                }
-    }, [props.persons]); // runs every persons changes
+            console.log('cockpit removed');
+        }
+    }, []);
 
     useEffect(() => {
         console.log('second useEffect');
@@ -39,9 +42,11 @@ const cockpit = (props) => {
             <h2>{props.title}</h2>
             <p className={assignedClasses.join(' ')}>This is a paragranpmph</p>
             <button 
+                ref={toggleBtnRef}
                 className={btnClass}
                 onClick={props.toggle}>Switch Name
             </button>
+             <button onClick={authContext.login}>Log innnn</button>
         </div> 
     )
 };

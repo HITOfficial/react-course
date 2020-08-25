@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import Person from './Person/Person'
 
-
 class Persons extends PureComponent {
   // shouldComponentUpdate(nextProps, nextState) {
   //   console.log('shouldUpdate');
@@ -23,6 +22,7 @@ class Persons extends PureComponent {
             age={person.age}
             change={(event) => this.props.changed(event, person.id)} // i need to pass event also in main function, becouse, truthly, he is even not declared physically
             key={person.id}
+            isAuthendicated={this.props.isAuthendicated}
           />
         )
     }));

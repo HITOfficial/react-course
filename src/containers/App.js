@@ -5,7 +5,7 @@ import Cockpit from '../components/Cockpit/Cockpit';
 import cockpit from '../components/Cockpit/Cockpit';
 import withClass from '../hoc/withClass';
 import Aux from '../hoc/Auxyliary';
-
+import AuthContext from '../constext/auth-context';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -23,7 +23,8 @@ class App extends Component {
     userInput: '',
     showPersons: false,
     cockpit: true,
-    changeCounter: 0
+    changeCounter: 0,
+    authendicated: false
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -88,6 +89,12 @@ class App extends Component {
     const updatedText = text.join('');
     this.setState({userInput : updatedText})
   }
+  
+  loginHandler = () => {
+    console.log(this.state.authendicated)
+    this.setState({authendicated: true})
+    console.log(this.state.authendicated)
+  }
 
   render() {
     console.log('[App.js] render')
@@ -108,6 +115,7 @@ class App extends Component {
             persons={this.state.persons}
             clicked={this.deletePersonHandler/* im doing an a reference to a deletePersonHandler*/}
             changed={this.switchNameHandler}  
+            isAuthendicated={this.state.authendicated}
           /> 
         </div>
       );
@@ -116,15 +124,18 @@ class App extends Component {
     return (
         <Aux>
           <button onClick={() => !this.setState({cockpit: !cockpit})}>Remove Cockpit</button>
-          {this.state.cockpit ? <Cockpit
-            cockpit={this.state.cockpit}
+          <AuthContext.Provider value={{authendicated: this.state.authendicated,
+                                        login: this.loginHandler}}>
+          {this.state.cockpit ? (
+          <Cockpit
             title={this.props.title}
             showPersons={this.state.showPersons}
             persons={this.state.persons}
             toggle={this.togglePersonsHandler} 
             personsLength={this.state.persons.length}
-          /> : null }
-
+          />
+          ) : null }
+          </AuthContext.Provider>
             {persons}
         </Aux>
       
