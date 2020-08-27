@@ -12,6 +12,7 @@ const controls = [
 const buildControls = (props) => {
     return(
         <div className="BuildCotrols">
+            <p className="BurgerCost">Total Price: {Math.floor(props.cost * 100) / 100}</p>
             {controls.map(element => {
                 return <BuildControl
                             key={element.label}
@@ -21,6 +22,13 @@ const buildControls = (props) => {
                             disabled={props.disabled[element.type]}
                         />
             })}
+             <button
+                    className="OrderButton"
+                    disabled={!props.purchasable}
+                    onClick={props.purchasing}
+                >
+                    ORDER NOW
+                </button>
         </div>
     );
 }
